@@ -24,19 +24,32 @@ plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
 plt.legend()
 plt.xlabel("bumpiness")
 plt.ylabel("grade")
-plt.show()
+# plt.show()
 ################################################################################
 
 
-### your code here!  name your classifier object clf if you want the 
+### your code here!  name your classifier object clf if you want the
 ### visualization code (prettyPicture) to show you the decision boundary
+from sklearn.ensemble import AdaBoostClassifier, ExtraTreesClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from time import time
 
+print(len(features_train[0]))
 
+# Create and train the Decision Tree classifier
+clf = AdaBoostClassifier()
+# clf = ExtraTreesClassifier(n_estimators=5,  min_samples_split=4, random_state=0)
 
+t0 = time()
+clf.fit(features_train, labels_train)
+print("training time:", round(time()-t0, 3), "s")
 
+t1 = time()
+predictions = clf.predict(features_test)
+print("prediction time:", round(time()-t1, 3), "s")
 
-
-
+print("Accuracy Score=", accuracy_score(labels_test, predictions))
 
 try:
     prettyPicture(clf, features_test, labels_test)
